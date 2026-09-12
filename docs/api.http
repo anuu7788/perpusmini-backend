@@ -1,0 +1,172 @@
+### PerpusMini API — buka dengan ekstensi "REST Client" (VS Code)
+@host = http://localhost:3000
+@token = isi_token_hasil_login
+
+### Health check
+GET {{host}}/health
+
+### Daftar endpoint
+GET {{host}}/api
+
+### ---------- AUTH ----------
+### Registrasi anggota baru
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nama": "Kadek Mahasiswa",
+  "email": "kadek@perpusmini.test",
+  "password": "Rahasia123",
+  "konfirmasi_password": "Rahasia123",
+  "no_telp": "081338889999"
+}
+
+### Login (salin token dari respons ke variabel @token di atas)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@perpusmini.test",
+  "password": "Admin1234"
+}
+
+### Profil saya
+GET {{host}}/api/auth/me
+Authorization: Bearer {{token}}
+
+### ---------- KATEGORI ----------
+GET {{host}}/api/kategori?page=1&limit=10&sort=nama
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/api/kategori/1
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/api/kategori
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nama": "Kecerdasan Buatan",
+  "deskripsi": "Machine learning, deep learning, dan penerapannya"
+}
+
+###
+PUT {{host}}/api/kategori/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "deskripsi": "Buku pemrograman berbagai bahasa"
+}
+
+###
+DELETE {{host}}/api/kategori/4
+Authorization: Bearer {{token}}
+
+### ---------- BUKU ----------
+GET {{host}}/api/buku?page=1&limit=10&q=node&sort=judul
+Authorization: Bearer {{token}}
+
+###
+GET {{host}}/api/buku/1
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/api/buku
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "kategori_id": 1,
+  "judul": "REST API dengan Express",
+  "penulis": "Gede Pratama",
+  "isbn": "9786020000012",
+  "tahun_terbit": 2025,
+  "stok": 4,
+  "sinopsis": "Panduan membangun REST API yang aman."
+}
+
+###
+PUT {{host}}/api/buku/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "stok": 10
+}
+
+###
+DELETE {{host}}/api/buku/6
+Authorization: Bearer {{token}}
+
+### ---------- PEMINJAMAN ----------
+GET {{host}}/api/peminjaman?page=1&limit=10
+Authorization: Bearer {{token}}
+
+###
+POST {{host}}/api/peminjaman
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "buku_id": 1,
+  "user_id": 2,
+  "catatan": "Pinjam untuk tugas akhir"
+}
+
+### Pengembalian buku
+PUT {{host}}/api/peminjaman/1
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "dikembalikan"
+}
+
+###
+DELETE {{host}}/api/peminjaman/1
+Authorization: Bearer {{token}}
+
+### ---------- USERS (admin) ----------
+GET {{host}}/api/users?page=1&limit=10
+Authorization: Bearer {{token}}
+
+###
+PUT {{host}}/api/users/2
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "nama": "Wayan Anggota Perpustakaan",
+  "is_active": true
+}
+
+###
+DELETE {{host}}/api/users/3
+Authorization: Bearer {{token}}
+
+### ---------- UJI KEAMANAN ----------
+### SQL Injection pada login (harus gagal)
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@perpusmini.test' OR '1'='1",
+  "password": "apa saja"
+}
+
+### Stored XSS pada judul (tag harus dibuang)
+POST {{host}}/api/buku
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "kategori_id": 1,
+  "judul": "<script>alert('xss')</script>Buku Aman",
+  "penulis": "<img src=x onerror=alert(1)>Budi",
+  "isbn": "9786020000013",
+  "tahun_terbit": 2024,
+  "stok": 1
+}
