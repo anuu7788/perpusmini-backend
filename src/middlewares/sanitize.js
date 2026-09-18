@@ -16,8 +16,12 @@ const OPTIONS = {
   nonTextTags: ['style', 'script', 'textarea', 'option', 'noscript', 'iframe'],
 };
 
+// Batas aman panjang string agar payload raksasa tidak membebani proses sanitasi
+const MAX_LENGTH = 5000;
+
 function cleanString(value) {
-  const stripped = sanitizeHtml(value, OPTIONS);
+  const input = value.length > MAX_LENGTH ? value.slice(0, MAX_LENGTH) : value;
+  const stripped = sanitizeHtml(input, OPTIONS);
   return stripped
     // eslint-disable-next-line no-control-regex
     .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '')
