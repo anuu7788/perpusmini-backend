@@ -1,128 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PerpusMini &mdash; Penguji API</title>
-<style>
-  :root { --bg:#0f172a; --card:#1e293b; --line:#334155; --text:#e2e8f0; --muted:#94a3b8; --accent:#38bdf8; }
-  * { box-sizing: border-box; }
-  body { margin:0; padding:24px; font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, sans-serif;
-         background:var(--bg); color:var(--text); }
-  .wrap { max-width: 880px; margin: 0 auto; }
-  h1 { font-size:22px; margin:0 0 4px; }
-  p.sub { color:var(--muted); margin:0 0 20px; font-size:14px; }
-  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:16px; margin-bottom:16px; }
-  label { display:block; font-size:13px; color:var(--muted); margin:8px 0 4px; }
-  input, select, textarea { width:100%; padding:8px 10px; border-radius:6px; border:1px solid var(--line);
-         background:#0b1220; color:var(--text); font-family:inherit; font-size:14px; }
-  textarea { min-height:110px; font-family: ui-monospace, Menlo, Consolas, monospace; }
-  button { margin-top:12px; padding:9px 16px; border:0; border-radius:6px; background:var(--accent);
-           color:#04212e; font-weight:600; cursor:pointer; }
-  pre { background:#0b1220; border:1px solid var(--line); border-radius:6px; padding:12px;
-        overflow:auto; max-height:380px; font-size:13px; white-space:pre-wrap; word-break:break-word; }
-  .row { display:flex; gap:12px; flex-wrap:wrap; }
-  .row > div { flex:1; min-width:180px; }
-  code { color:var(--accent); }
-</style>
-</head>
-<body>
-<div class="wrap">
-  <h1>PerpusMini &mdash; Penguji REST API</h1>
-  <p class="sub">Halaman sederhana untuk mencoba endpoint back-end. Respons ditampilkan sebagai teks
-     (memakai <code>textContent</code>, bukan <code>innerHTML</code>) sehingga aman dari XSS di sisi klien.</p>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PerpusMini &mdash; Penguji API</title>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --line: #334155;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #38bdf8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          Segoe UI,
+          Roboto,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 880px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0 0 4px;
+      }
+      p.sub {
+        color: var(--muted);
+        margin: 0 0 20px;
+        font-size: 14px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        color: var(--muted);
+        margin: 8px 0 4px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px 10px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        background: #0b1220;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 14px;
+      }
+      textarea {
+        min-height: 110px;
+        font-family: ui-monospace, Menlo, Consolas, monospace;
+      }
+      button {
+        margin-top: 12px;
+        padding: 9px 16px;
+        border: 0;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #04212e;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      pre {
+        background: #0b1220;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 12px;
+        overflow: auto;
+        max-height: 380px;
+        font-size: 13px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .row > div {
+        flex: 1;
+        min-width: 180px;
+      }
+      code {
+        color: var(--accent);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>PerpusMini &mdash; Penguji REST API</h1>
+      <p class="sub">
+        Halaman sederhana untuk mencoba endpoint back-end. Respons ditampilkan
+        sebagai teks (memakai <code>textContent</code>, bukan
+        <code>innerHTML</code>) sehingga aman dari XSS di sisi klien.
+      </p>
 
-  <div class="card">
-    <strong>1. Login</strong>
-    <div class="row">
-      <div>
-        <label for="email">Email</label>
-        <input id="email" type="email" value="admin@perpusmini.test" autocomplete="username">
+      <div class="card">
+        <strong>1. Login</strong>
+        <div class="row">
+          <div>
+            <label for="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              value="admin@perpusmini.test"
+              autocomplete="username"
+            />
+          </div>
+          <div>
+            <label for="password">Password</label>
+            <input
+              id="password"
+              type="password"
+              value="Admin1234"
+              autocomplete="current-password"
+            />
+          </div>
+        </div>
+        <button id="btnLogin">Login &amp; simpan token</button>
+        <label for="token">Token JWT</label>
+        <input
+          id="token"
+          type="text"
+          placeholder="terisi otomatis setelah login"
+        />
       </div>
-      <div>
-        <label for="password">Password</label>
-        <input id="password" type="password" value="Admin1234" autocomplete="current-password">
-      </div>
-    </div>
-    <button id="btnLogin">Login &amp; simpan token</button>
-    <label for="token">Token JWT</label>
-    <input id="token" type="text" placeholder="terisi otomatis setelah login">
-  </div>
 
-  <div class="card">
-    <strong>2. Kirim permintaan</strong>
-    <div class="row">
-      <div>
-        <label for="method">Method</label>
-        <select id="method">
-          <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
-        </select>
-      </div>
-      <div style="flex:3">
-        <label for="path">Endpoint</label>
-        <input id="path" type="text" value="/api/buku?page=1&limit=5">
-      </div>
-    </div>
-    <label for="payload">Body (JSON, kosongkan untuk GET/DELETE)</label>
-    <textarea id="payload" spellcheck="false">{
+      <div class="card">
+        <strong>2. Kirim permintaan</strong>
+        <div class="row">
+          <div>
+            <label for="method">Method</label>
+            <select id="method">
+              <option>GET</option>
+              <option>POST</option>
+              <option>PUT</option>
+              <option>DELETE</option>
+            </select>
+          </div>
+          <div style="flex: 3">
+            <label for="path">Endpoint</label>
+            <input id="path" type="text" value="/api/buku?page=1&limit=5" />
+          </div>
+        </div>
+        <label for="payload">Body (JSON, kosongkan untuk GET/DELETE)</label>
+        <textarea id="payload" spellcheck="false">
+{
   "kategori_id": 1,
   "judul": "Buku Uji Coba",
   "penulis": "Mahasiswa TI",
   "isbn": "9786029999991",
   "tahun_terbit": 2025,
   "stok": 3
-}</textarea>
-    <button id="btnSend">Kirim</button>
-  </div>
+}</textarea
+        >
+        <button id="btnSend">Kirim</button>
+      </div>
 
-  <div class="card">
-    <strong>Respons</strong>
-    <pre id="output">Belum ada permintaan.</pre>
-  </div>
-</div>
+      <div class="card">
+        <strong>Respons</strong>
+        <pre id="output">Belum ada permintaan.</pre>
+      </div>
+    </div>
 
-<script>
-  const $ = (id) => document.getElementById(id);
-  const out = $('output');
-
-  function render(status, body) {
-    out.textContent = 'HTTP ' + status + '\n\n' + JSON.stringify(body, null, 2);
-  }
-
-  async function request(method, path, body) {
-    const headers = { 'Content-Type': 'application/json' };
-    const token = $('token').value.trim();
-    if (token) headers.Authorization = 'Bearer ' + token;
-    const res = await fetch(path, {
-      method,
-      headers,
-      body: ['GET', 'DELETE'].includes(method) ? undefined : JSON.stringify(body),
-    });
-    const json = await res.json().catch(() => ({ message: 'Respons bukan JSON' }));
-    render(res.status, json);
-    return json;
-  }
-
-  $('btnLogin').addEventListener('click', async () => {
-    const data = await request('POST', '/api/auth/login', {
-      email: $('email').value, password: $('password').value,
-    });
-    if (data && data.success && data.data && data.data.token) $('token').value = data.data.token;
-  });
-
-  $('btnSend').addEventListener('click', async () => {
-    const method = $('method').value;
-    let body;
-    if (!['GET', 'DELETE'].includes(method)) {
-      try {
-        body = JSON.parse($('payload').value || '{}');
-      } catch (e) {
-        out.textContent = 'Body JSON tidak valid: ' + e.message;
-        return;
-      }
-    }
-    await request(method, $('path').value.trim(), body);
-  });
-</script>
-</body>
+    <script src="/app.js"></script>
+  </body>
 </html>
